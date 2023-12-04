@@ -1,0 +1,55 @@
+*{
+    marg: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.page{
+    height: 90vh;
+    background-image: url('../assets/donation.jpg');
+    background-repeat: no-repeat;
+    background-size:cover;
+}
+
+.text{
+    width: 50vw;
+    margin-left: 25%;
+    
+    text-align: center;
+}
+
+
+.text p{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+
+.cards{
+    margin-left: 25%;
+    margin-top: 1%;
+    display: flex;
+    width: 50vw;
+    justify-content: space-between;
+    margin-bottom: 5%;
+    
+    
+}
+.card{
+    width: 15rem;
+    opacity: 0.7;
+   
+}
+
+.card1 img{
+    width: 10rem;
+}
+
+.card:hover{
+    opacity: 1.0;
+    box-shadow: 10px 10px 5px lightcoral
+}
+
+.card1:hover, .card2:hover{
+    cursor: pointer;
+
+}

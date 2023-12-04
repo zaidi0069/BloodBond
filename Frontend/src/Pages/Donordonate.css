@@ -1,0 +1,51 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.donatebutton {
+    margin-right: 10px;
+    background-color: aliceblue;
+    color: rgb(60, 0, 255);
+    font-size: 20px;
+
+}
+
+
+#donationform {
+
+    background-color: rgb(147, 79, 212);
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+
+}
+
+#donationform button {
+    padding: 8px 16px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #donationform button:hover {
+    background-color: #45a049;
+  }
+
+#donationform label {
+   
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.table {
+    width: 80vw;
+    margin-left: 10%;
+}

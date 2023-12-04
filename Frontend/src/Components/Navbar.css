@@ -1,0 +1,11 @@
+.color{
+    color: white;
+}
+
+.hover:hover{
+
+    text-decoration: underline;
+    color: white;
+    transform: translate(1px);
+    
+}

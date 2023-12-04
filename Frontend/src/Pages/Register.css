@@ -1,0 +1,33 @@
+.register{
+    background-color: rgb(232, 185, 185);
+   
+    display: flex;
+    padding: 2em;
+}
+
+.qn label{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+button{
+    width: 100%;
+    display: flex;
+    
+}
+.image{
+    min-width: 50vw;
+    height: 80vh;
+}
+.image img{
+    width: 100%;
+    height: 100%;
+}
+
+
+.form{
+    padding-top: 5vh;
+   
+}
+
+
