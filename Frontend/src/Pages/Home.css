@@ -1,0 +1,12 @@
+*{
+    marg: 0;
+    padd: 0;
+    box-sizing: border-box;
+}
+
+.body{
+    background-image: url('../assets/donation.jpg');
+    height: 90vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

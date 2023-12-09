@@ -5,19 +5,21 @@ import donateimg from '../assets/donate.png'
 import { useTypewriter } from 'react-simple-typewriter'
 import history from '../assets/history.png'
 import './Donor.css'
-
+import { useNavigate } from "react-router-dom";
 const Organization = () => {
 
+  
+  const navigate = useNavigate();
 
   const [validstatus, setvalidstatus] = useState('false')
-  const [donor, setdonor] = useState('')
+  const [organization, setorganization] = useState('')
   // Use the useLocation hook to get the location object
   const location = useLocation();
 
   // Access the state object, which contains the id
-  const donor_Id = location.state.id;
+  const organization_Id = location.state.id;
 
-  const authToken = localStorage.getItem(`authToken_${donor_Id}`);
+  const authToken = localStorage.getItem(`authToken_${organization_Id}`);
 
 
   // console.log(authToken)
@@ -36,11 +38,15 @@ const Organization = () => {
     }
     else return res.json();
   }).then((data) => {
-    console.log(data)
     setvalidstatus('true')
-    setdonor(data)
+    setorganization(data)
   })
 
+
+  function gotoinventory()
+  {
+    navigate('/orginventory', { state: { id: organization_Id, orgname: organization } });
+  }
 
   if (validstatus === 'true') {
     return (
@@ -50,27 +56,27 @@ const Organization = () => {
         <div className="page">
           <div className="text">
             <br />
-            <h2>Hello {donor}, Welcome to Blood Bond</h2>
+            <h2>Hello {organization}, Welcome to Blood Bond</h2>
             <br />
          
           </div>
 
           <div className="cards">
-            <a href="">
-              <div class="card card1">
+         
+              <div class="card card1" onClick={gotoinventory}>
                 <img src={donateimg} class="card-img-top" alt="..." />
                 <div class="card-body">
-                  <h5 class="card-title">Donate Blood</h5>
+                  <h5 class="card-title">Inventory</h5>
                   <p class="card-text">Your Blood can save someone's life. Donate Life, Donate Blood</p>
                 </div>
               </div>
-            </a>
+         
 
             <a href="">
               <div class="card">
                 <img src={history} class="card-img-top" alt="..." />
                 <div class="card-body">
-                  <h5 class="card-title">Donation History</h5>
+                  <h5 class="card-title">Donors List</h5>
                   <p class="card-text">See how many lives have you donated</p>
                 </div>
               </div>

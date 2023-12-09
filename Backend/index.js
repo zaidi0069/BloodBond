@@ -5,7 +5,7 @@ const db= 'mongodb+srv://zaid:112234@cluster0.khcordl.mongodb.net/Blood_Donation
 const cors = require('cors');
 
 const app = express();
-
+//lig
 // Enable CORS for all routes
 app.use(cors());
 
@@ -20,6 +20,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', Routes)
+app.get('/inventory', Routes)
+
 app.get('/organizations', Routes)
 app.post('/history', Routes)
 app.post('/donorsignup', Routes)

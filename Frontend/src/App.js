@@ -6,19 +6,21 @@ import Login from './Pages/Login'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Organization from './Pages/Organization';
 import DonorHistory from './Pages/DonorHistory';
+import Home from './Pages/Home';
+import Orginventory from './Pages/Orginventory';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        
-        <Route path='/' element={<>Nothing Here!!</>} />
+        <Route path='/' element={<Home/>} />
         <Route path='/signup' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/donor' element={<Donor/>} />
         <Route path='/donate' element={<DonorDonate/> } />
         <Route path='/history' element={<DonorHistory/> } />
         <Route path='/organization' element={<Organization/>} />
+        <Route path='/orginventory' element={<Orginventory/>} />
       </Routes>
     </BrowserRouter>
   );

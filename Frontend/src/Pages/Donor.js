@@ -95,7 +95,7 @@ const Donor = () => {
 
           <div className="cards" >
              
-              <div class="card card1" onClick={navigatetodonatescreen }>
+              <div class="card card1" onClick={navigatetodonatescreen}>
               <img src={donateimg} class="card-img-top" alt="..." />
               <div class="card-body">
                 <h5 class="card-title">Donate Blood</h5>
@@ -105,7 +105,7 @@ const Donor = () => {
           
 
           <div className="cards" >
-            <div class="card card2" onClick={navigatetohistoryscreen }>
+            <div class="card card2" onClick={navigatetohistoryscreen}>
               <img src={history} class="card-img-top" alt="..." />
               <div class="card-body">
                 <h5 class="card-title">Donation History</h5>
