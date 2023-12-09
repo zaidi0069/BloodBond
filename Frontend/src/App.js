@@ -11,6 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        
         <Route path='/' element={<>Nothing Here!!</>} />
         <Route path='/signup' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
