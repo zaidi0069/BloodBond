@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 let secret = "w2dwertyuiopoiuytrewqwertyuiopoiuytrewqwertyui2d"
 const Transaction = require('../Schemas/DonortoOrgTransaction')
+const { Donor } = require('../Schemas/DonorSchema')
 
 
 
@@ -121,7 +122,7 @@ const organizationsignup = (req, res) => {
 
 
 const organizations = (req, res) => {
-    console.log('org called')
+
     Organization.find({}).then((organizations) => {
         // Print the documents
         res.status(200).json(organizations)
@@ -130,36 +131,33 @@ const organizations = (req, res) => {
 
 
 const inventory = (req, res) => {
-    console.log(' inv çalled')
     const { orgname } = req.query
-    let inventory =[0, 0, 0, 0, 0, 0, 0, 0]; //A+, A-, B+, B-, AB+, AB-,O+, O- 
+    let inventory = [0, 0, 0, 0, 0, 0, 0, 0]; //A+, A-, B+, B-, AB+, AB-,O+, O- 
     Transaction.find({ orgname: orgname }).then((transactions) => {
         if (transactions) {
-            console.log('1')
-            for(let i=0; i<transactions.length; i++)
-            {
-                if(transactions[i].blood_group==='A+'){inventory[0]+=transactions[i].quantity}
-                else if(transactions[i].blood_group==='A-'){inventory[1]+=transactions[i].quantity}
-                else if(transactions[i].blood_group==='B+'){inventory[2]+=transactions[i].quantity}
-                else if(transactions[i].blood_group==='B-'){inventory[3]+=transactions[i].quantity}
-                else if(transactions[i].blood_group==='AB+'){inventory[4]+=transactions[i].quantity}
-                else if(transactions[i].blood_group==='AB+'){inventory[5]+=transactions[i].quantity}
-                else if(transactions[i].blood_group==='O+'){inventory[6]+=transactions[i].quantity}
-                else if(transactions[i].blood_group==='O+'){inventory[7]+=transactions[i].quantity}
+            for (let i = 0; i < transactions.length; i++) {
+                if (transactions[i].blood_group === 'A+') { inventory[0] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'A-') { inventory[1] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'B+') { inventory[2] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'B-') { inventory[3] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'AB+') { inventory[4] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'AB+') { inventory[5] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'O+') { inventory[6] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'O+') { inventory[7] += transactions[i].quantity }
             }
-        
-            let blood_inventory= {
-                "A+":inventory[0],
-                "A-":inventory[1],
-                "B+":inventory[2],
-                "B-":inventory[3],
-                "AB+":inventory[4],
-                "AB-":inventory[5],
-                "O+":inventory[6],
-                "O-":inventory[7]
+
+            let blood_inventory = {
+                "A+": inventory[0],
+                "A-": inventory[1],
+                "B+": inventory[2],
+                "B-": inventory[3],
+                "AB+": inventory[4],
+                "AB-": inventory[5],
+                "O+": inventory[6],
+                "O-": inventory[7]
             }
             res.send(blood_inventory)
-           
+
         }
         else {
             res.send('ewd eerror')
@@ -170,4 +168,42 @@ const inventory = (req, res) => {
 
 
 
-module.exports = { organizationlogin, organizationsignup, organizations, inventory }
+const donors = (req, res) => {
+    const { orgname } = req.query
+    console.log('triggered')
+    Transaction.find({ orgname: orgname }).distinct('donorid').then((trans) => {
+        if (trans) {
+            let uniquedonors = []
+
+        
+                Donor.find({ _id: trans }).then((donor) => {
+
+                  for(let d in donor)
+                    if (d) {
+                        uniquedonors.push({
+                            email: donor[d].email,
+                            age: donor[d].age,
+                            name: donor[d].name,
+                            blood_group: donor[d].blood_group,
+                            address: donor[d].address
+                        }) 
+                    }
+                    
+                    else {
+                        res.status(300).send('error')
+                    }
+                    
+                }).then(()=>{
+                    res.status(200).json(uniquedonors)})
+        
+        }
+        else
+            res.status(300).send('errr')
+
+
+    })
+}
+
+
+
+module.exports = { organizationlogin, organizationsignup, organizations, inventory, donors }

@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/', Routes)
 app.get('/inventory', Routes)
-
+app.get('/donors', Routes)
 app.get('/organizations', Routes)
 app.post('/history', Routes)
 app.post('/donorsignup', Routes)

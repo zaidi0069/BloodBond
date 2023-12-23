@@ -8,6 +8,7 @@ import Organization from './Pages/Organization';
 import DonorHistory from './Pages/DonorHistory';
 import Home from './Pages/Home';
 import Orginventory from './Pages/Orginventory';
+import OrgDonors from './Pages/OrgDonors'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/history' element={<DonorHistory/> } />
         <Route path='/organization' element={<Organization/>} />
         <Route path='/orginventory' element={<Orginventory/>} />
+        <Route path='/orgdonors' element={<OrgDonors/>} />
       </Routes>
     </BrowserRouter>
   );

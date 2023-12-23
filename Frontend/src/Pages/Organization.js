@@ -48,6 +48,15 @@ const Organization = () => {
     navigate('/orginventory', { state: { id: organization_Id, orgname: organization } });
   }
 
+
+
+  function gotodonorslist()
+  {
+    console.log('clicked')
+    navigate('/orgdonors', { state: { id: organization_Id, orgname: organization } });
+  }
+
+
   if (validstatus === 'true') {
     return (
 
@@ -67,17 +76,17 @@ const Organization = () => {
                 <img src={donateimg} class="card-img-top" alt="..." />
                 <div class="card-body">
                   <h5 class="card-title">Inventory</h5>
-                  <p class="card-text">Your Blood can save someone's life. Donate Life, Donate Blood</p>
+                  <p class="card-text">See Inventory</p>
                 </div>
               </div>
          
 
             <a href="">
-              <div class="card">
+              <div class="card" onClick={gotodonorslist}>
                 <img src={history} class="card-img-top" alt="..." />
                 <div class="card-body">
                   <h5 class="card-title">Donors List</h5>
-                  <p class="card-text">See how many lives have you donated</p>
+                  <p class="card-text">See your donors</p>
                 </div>
               </div>
             </a>
