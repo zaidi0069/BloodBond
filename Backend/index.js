@@ -20,8 +20,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', Routes)
-app.get('/inventory', Routes)
 app.get('/donors', Routes)
+app.get('/inventory', Routes)
+
 app.get('/organizations', Routes)
 app.post('/history', Routes)
 app.post('/donorsignup', Routes)
@@ -31,6 +32,8 @@ app.post('/validate', Routes)
 app.get('/donordonation', Routes)
 app.post('/organizationsignup', Routes)
 app.post('/organizationlogin', Routes)
+app.post('/hospitalsignup', Routes)
+app.post('/hospitallogin', Routes)
 
 app.listen(3001, ()=>{
     console.log("Server is running on port 3001")
