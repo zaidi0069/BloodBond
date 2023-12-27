@@ -7,6 +7,7 @@ let secret = "w2dwertyuiopoiuytrewqwertyuiopoiuytrewqwertyui2d"
 
 const hospitallogin = async function (req, res) {
     try {
+        console.log('hosp login triggered')
         const { email, password } = req.body;
         const hospital = await Hospital.findOne({ email });
 
@@ -27,7 +28,7 @@ const hospitallogin = async function (req, res) {
                     expiresIn: '500s'
                 }
             );
-
+                console.log('x')
             return res.json({ id: hospital._id.toString(), token });
         } else {
             return res.status(401).json({ err: 'Invalid Password for hospital' });
@@ -45,9 +46,12 @@ const hospitallogin = async function (req, res) {
 
 const hospitalsignup = async function (req, res) {
 
-  
 
-    const { name, email, address, password , organizations} = req.body;
+    const {name, email, password, address} = req.body.formData
+
+    const selectedorgs = req.body.selectedorgs
+
+    
 
     Hospital.findOne({email}).then((hospital) => {
 
@@ -59,7 +63,7 @@ const hospitalsignup = async function (req, res) {
         else if (!hospital) {
             const hosp = new Hospital({
                 name,  email,
-                address,password, organizations
+                address,password, organizations: selectedorgs
             })
 
 
@@ -79,7 +83,7 @@ const hospitalsignup = async function (req, res) {
                     }
                 )
                 res.json({ id: hosp._id.toString(), token: token })
-                //  res.redirect('http://localhost:3000/donor');
+              
 
             })
         }

@@ -56,6 +56,7 @@ const DonorDonate = () => {
             fetch('http://localhost:3001/organizations').then((orgs) => {
                 return orgs.json().then((orgs) => {
 
+                    console.log(orgs)
                     for (i; i < orgs.length; i++) {
 
                         const tr = document.createElement('tr')

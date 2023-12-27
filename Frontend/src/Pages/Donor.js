@@ -104,7 +104,7 @@ const Donor = () => {
             </div>
           
 
-          <div className="cards" >
+          
             <div class="card card2" onClick={navigatetohistoryscreen}>
               <img src={history} class="card-img-top" alt="..." />
               <div class="card-body">
@@ -114,7 +114,7 @@ const Donor = () => {
             </div>
           </div>
         </div>
-      </div>
+      
       </>
     )
   }

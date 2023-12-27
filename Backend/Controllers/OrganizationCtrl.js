@@ -63,7 +63,6 @@ const organizationlogin = (req, res) => {
 
 
 
-
 const organizationsignup = (req, res) => {
     const { name, email, mobile, address, city, password } = req.body;
 
@@ -122,11 +121,23 @@ const organizationsignup = (req, res) => {
 
 
 const organizations = (req, res) => {
+    let orgnames=[];
 
     Organization.find({}).then((organizations) => {
-        // Print the documents
-        res.status(200).json(organizations)
+        
+        for(let i=0; i<organizations.length; i++)
+        {
+           orgnames.push({
+            name: organizations[i].name,
+            city: organizations[i].city,
+            address: organizations[i].address
+           })
+          
+        }
+        console.log(orgnames)
+        res.status(200).json(orgnames)
     })
+
 }
 
 

@@ -18,7 +18,7 @@ HospitalSchema.pre('save', async function(next){
 
     if(this.isModified('password'))
     {
-        this.password = bcrypt.hash(this.password, 8)
+        this.password = await bcrypt.hash(this.password, 8)
     }
 
     next()

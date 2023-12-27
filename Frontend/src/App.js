@@ -9,6 +9,7 @@ import DonorHistory from './Pages/DonorHistory';
 import Home from './Pages/Home';
 import Orginventory from './Pages/Orginventory';
 import OrgDonors from './Pages/OrgDonors'
+import HospitalRegister from './Pages/HospitalRegister';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>} />
         <Route path='/signup' element={<Register/>} />
+        <Route path='/hospitalsignup' element={<HospitalRegister/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/donor' element={<Donor/>} />
         <Route path='/donate' element={<DonorDonate/> } />

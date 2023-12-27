@@ -2,7 +2,7 @@ import React from 'react'
 import Navbar from '../Components/Navbar'
 import bd from '../assets/blooddrop1.png'
 import './Register.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 
 import { Link } from 'react-router-dom'
@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom'
 
 
 const Register = () => {
+
+
 
     const [signupAPI, setsignupAPI] = useState('http://localhost:3001/donorsignup')
     const navigate = useNavigate();
@@ -31,6 +33,9 @@ const Register = () => {
     });
 
 
+    const [selectedorgs, setselectedorgs] = useState([])
+
+
     const handleInputonChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -39,10 +44,25 @@ const Register = () => {
         });
     };
 
+    const handleCheckboxonChange = (e) => {
+        const { value } = e.target;
+        setselectedorgs((prev) => [
+            ...prev, value,
+        ]);
+
+    };
+
+
+    const requestBody = {
+        formData: formData,
+        selectedorgs: selectedorgs,
+    };
+
 
     const handleSubmit = (e) => {
 
         try {
+
             e.preventDefault()
             fetch(signupAPI, {
                 method: 'POST',
@@ -52,21 +72,20 @@ const Register = () => {
                 },
                 body: JSON.stringify(formData),
             })
-            .then((res) => 
-            {
-                if (!res.ok) {
-                    return res.json()
-                        .then((data) => {
-                            console.log(data.err)
-                        })
-                }
-                else return res.json();
+                .then((res) => {
+                    if (!res.ok) {
+                        return res.json()
+                            .then((data) => {
+                                console.log(data.err)
+                            })
+                    }
+                    else return res.json();
 
-            })
+                })
                 .then((data) => {
 
                     const id = data.id
-                    
+
 
                     localStorage.setItem(`authToken_${id}`, data.token);
 
@@ -79,8 +98,8 @@ const Register = () => {
 
                 })
                 .catch((error) => {
-                    console.error('Errorrrr:'+error);
-                    
+                    console.error('Errorrrr:' + error);
+
                 });
         } catch (e) {
 
@@ -92,8 +111,11 @@ const Register = () => {
 
 
 
+    
 
-    function pagesetter(e) {
+
+    function Pagesetter(e) {
+
         e.preventDefault();
 
         if (e.target.value === 'donor') {
@@ -106,13 +128,68 @@ const Register = () => {
             setsignupAPI('http://localhost:3001/organizationsignup')
         }
 
+        else if (e.target.value === 'hospital') {
+            navigate('/hospitalsignup')
+
+        }
+
+        else if (e.target.value === 'admin') {
+            setpage('admin')
+            setsignupAPI('http://localhost:3001/adminsignup')
+        }
+
     }
+
+
+
+    useEffect(() => {
+        if (page == 'hospital') {
+            var checkboxesContainer = document.getElementById('organizationsrow');
+
+            if (!checkboxesContainer.hasChildNodes()) {
+                console.log('hi')
+                fetch('http://localhost:3001/organizations').then((res) => {
+                    return res.json()
+                }).then((orgs) => {
+                    return orgs
+                }).then((organizations) => {
+                    console.log(organizations)
+
+                    for (var i = 0; i < organizations.length; i++) {
+                        var checkboxLabel = document.createElement('label');
+                        checkboxLabel.innerText = organizations[i]
+                        var checkbox = document.createElement('input');
+
+                        checkbox.type = 'checkbox';
+
+                        checkbox.name = 'organizations'
+                        checkbox.value = organizations[i];
+                        checkboxesContainer.appendChild(checkbox);
+                        checkbox.addEventListener('change', handleCheckboxonChange);
+                        checkboxesContainer.appendChild(checkboxLabel);
+                        checkboxesContainer.appendChild(document.createElement('br'));
+                    }
+                })
+            }
+
+        }
+
+        else {
+            var checkboxesContainer = document.getElementById('organizationsrow')
+            checkboxesContainer.innerHTML = ""
+            checkboxesContainer.style.visibility='false'
+        }
+
+
+    }, [page])
+
 
     // set content to return according to selected role
 
     let content;
 
     if (page === 'donor') {
+
         content = <>
             <form onSubmit={handleSubmit} className="row g-3 container" >
 
@@ -175,7 +252,7 @@ const Register = () => {
                     </select>
                 </div>
 
-                <div className="col-12">
+                <div className="col-12" id='organizationsrow'>
 
                 </div>
                 <div className="col-12">
@@ -219,10 +296,10 @@ const Register = () => {
                         <label htmlFor="inputConChange={handleInputonChange} ity" className="form-label">City</label>
                         <input onChange={handleInputonChange} required='true' type="text" className="form-control" name='city' id="inputConChange={handleInputonChange} ity" />
                     </div>
-
-                    <div className="col-12">
+                    <div className="col-12" id='organizationsrow'>
 
                     </div>
+
                     <div className="col-12">
                         <button onClick={() => { }} type="submit" className="btn btn-primary">Register</button>
                     </div>
@@ -230,6 +307,9 @@ const Register = () => {
             </>
 
     }
+
+
+
 
 
 
@@ -253,15 +333,13 @@ const Register = () => {
                         <h5>Register as: </h5>
 
                         <label htmlhtmlFor="">Donor </label>
-                        <input required='true' type="radio" id="donor" name="role" value="donor" checked={page === 'donor'} onChange={pagesetter} />
+                        <input required='true' type="radio" id="donor" name="role" value="donor" checked={page === 'donor'} onChange={Pagesetter} />
                         <label htmlhtmlFor="">Hospital </label>
-                        <input required='true' type="radio" id="hospital" name="role" value="hospital" onChange={pagesetter} />
-                        <label htmlhtmlFor="">Reciever </label>
-                        <input required='true' type="radio" id="reciever" name="role" value="reciever" onChange={pagesetter} />
+                        <input required='true' type="radio" id="hospital" name="role" value="hospital" onChange={Pagesetter} />
                         <label htmlhtmlFor="">Organization </label>
-                        <input required='true' type="radio" id="organization" name="role" value="organization" onChange={pagesetter} />
+                        <input required='true' type="radio" id="organization" name="role" value="organization" onChange={Pagesetter} />
                         <label htmlhtmlFor="">Admin </label>
-                        <input required='true' type="radio" id="admin" name="role" value="admin" onChange={pagesetter} />
+                        <input required='true' type="radio" id="admin" name="role" value="admin" onChange={Pagesetter} />
                         <br />
                     </div>
                     <br />
@@ -276,5 +354,6 @@ const Register = () => {
         </>
     )
 }
+
 
 export default Register

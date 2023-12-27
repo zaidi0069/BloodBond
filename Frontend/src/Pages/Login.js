@@ -46,13 +46,21 @@ const Login = () => {
                         return res.json()
                             .then((data) => {
                                 console.log(data.err)
+                                let x= document.getElementById('error')
+                                x.innerText=data.err
                             })
                     }
-                    else return res.json();
+                    else
+                    { 
+                        return res.json();
+                        let x= document.getElementById('error')
+                        x.innerText=""
+                    }
 
                 })
                 .then((data) => {
 
+                    console.log(data)
                     const id = data.id
 
 
@@ -68,6 +76,7 @@ const Login = () => {
                 })
                 .catch((error) => {
                     console.error('Errorrrr:', error.err);
+                    
                 });
         } catch (e) {
 
@@ -85,23 +94,23 @@ const Login = () => {
         if (e.target.value === 'donor') {
             setloginAPI('http://localhost:3001/donorlogin')
             setpage('donor')
-            console.log(page + ' ' + loginAPI)
+           
         }
 
 
         else if (e.target.value === 'organization') {
             setpage('organization')
             setloginAPI('http://localhost:3001/organizationlogin')
-            console.log(page + ' ' + loginAPI)
+         
         }
 
         else if (e.target.value === 'hospital') {
+            setpage('hospital')
             setloginAPI('http://localhost:3001/hospitallogin')
+         
         }
+        
 
-        else if (e.target.value === 'reciever') {
-            setloginAPI('http://localhost:3001/reciever')
-        }
 
         else if (e.target.value === 'admin') {
             setloginAPI('http://localhost:3001/adminlogin')
@@ -135,8 +144,7 @@ const Login = () => {
                         <input required='true' type="radio" id="donor" name="role" value="donor" checked={loginAPI === 'http://localhost:3001/donorlogin'} onChange={apisetter} />
                         <label htmlhtmlFor="">Hospital </label>
                         <input required='true' type="radio" id="hospital" name="role" value="hospital" onChange={apisetter} />
-                        <label htmlhtmlFor="">Reciever </label>
-                        <input required='true' type="radio" id="reciever" name="role" value="reciever" onChange={apisetter} />
+                       
                         <label htmlhtmlFor="">Organization </label>
                         <input required='true' type="radio" id="organization" name="role" value="organization" onChange={apisetter} />
                         <label htmlhtmlFor="">Admin </label>
@@ -163,6 +171,9 @@ const Login = () => {
                         <div className="col-12">
                             <button type='submit' className="btn btn-primary">Log In</button>
                         </div>
+
+
+                        <p style={{color:'red'}} id='error'></p>
                     </form>
 
 

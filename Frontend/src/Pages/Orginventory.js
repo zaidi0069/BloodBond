@@ -25,8 +25,7 @@ const Orginventory = () => {
     const authToken = localStorage.getItem(`authToken_${organization_Id}`);
 
 
-    let i = 0
-    // console.log(authToken)
+
     useEffect(() => {
         console.log('called')
         fetch('http://localhost:3001/validate', {

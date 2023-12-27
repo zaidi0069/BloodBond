@@ -1,7 +1,8 @@
 const express = require('express')
 const mongooose = require('mongoose')
 const Routes = require('./Routes/Routes')
-const db= 'mongodb+srv://zaid:112234@cluster0.khcordl.mongodb.net/Blood_Donation_App'
+let db= 'mongodb+srv://zaid:112234@cluster0.khcordl.mongodb.net/Blood_Donation_App'
+
 const cors = require('cors');
 
 const app = express();
