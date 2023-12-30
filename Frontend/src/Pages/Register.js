@@ -142,46 +142,7 @@ const Register = () => {
 
 
 
-    useEffect(() => {
-        if (page == 'hospital') {
-            var checkboxesContainer = document.getElementById('organizationsrow');
 
-            if (!checkboxesContainer.hasChildNodes()) {
-                console.log('hi')
-                fetch('http://localhost:3001/organizations').then((res) => {
-                    return res.json()
-                }).then((orgs) => {
-                    return orgs
-                }).then((organizations) => {
-                    console.log(organizations)
-
-                    for (var i = 0; i < organizations.length; i++) {
-                        var checkboxLabel = document.createElement('label');
-                        checkboxLabel.innerText = organizations[i]
-                        var checkbox = document.createElement('input');
-
-                        checkbox.type = 'checkbox';
-
-                        checkbox.name = 'organizations'
-                        checkbox.value = organizations[i];
-                        checkboxesContainer.appendChild(checkbox);
-                        checkbox.addEventListener('change', handleCheckboxonChange);
-                        checkboxesContainer.appendChild(checkboxLabel);
-                        checkboxesContainer.appendChild(document.createElement('br'));
-                    }
-                })
-            }
-
-        }
-
-        else {
-            var checkboxesContainer = document.getElementById('organizationsrow')
-            checkboxesContainer.innerHTML = ""
-            checkboxesContainer.style.visibility='false'
-        }
-
-
-    }, [page])
 
 
     // set content to return according to selected role

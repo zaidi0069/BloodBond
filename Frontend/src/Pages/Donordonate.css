@@ -12,6 +12,10 @@
 
 }
 
+table thead tr td {
+    font-size: large;
+    font-weight: 600;
+}
 
 #donationform {
 

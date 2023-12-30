@@ -33,7 +33,6 @@ const Login = () => {
 
         try {
             e.preventDefault()
-            console.log('fetching ' + loginAPI)
             fetch(loginAPI, {
                 method: 'POST',
                 headers: {
@@ -60,7 +59,7 @@ const Login = () => {
                 })
                 .then((data) => {
 
-                    console.log(data)
+                  
                     const id = data.id
 
 
@@ -72,6 +71,9 @@ const Login = () => {
 
                     else if (page == 'organization')
                         navigate("/organization", { state: { id: id } });
+
+                    else if (page == 'hospital')
+                        navigate("/hospital", { state: { id: id } });
 
                 })
                 .catch((error) => {

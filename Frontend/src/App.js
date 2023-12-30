@@ -10,6 +10,9 @@ import Home from './Pages/Home';
 import Orginventory from './Pages/Orginventory';
 import OrgDonors from './Pages/OrgDonors'
 import HospitalRegister from './Pages/HospitalRegister';
+import Hospital from './Pages/Hospital';
+import GetDonation from './Pages/GetDonation';
+import BloodRequests from './Pages/BloodRequests';
 
 function App() {
   return (
@@ -25,6 +28,9 @@ function App() {
         <Route path='/organization' element={<Organization/>} />
         <Route path='/orginventory' element={<Orginventory/>} />
         <Route path='/orgdonors' element={<OrgDonors/>} />
+        <Route path='/hospital' element={<Hospital/>} />
+        <Route path='getdonation' element={<GetDonation/>}/>
+        <Route path='bloodrequests' element={<BloodRequests/>}/>
       </Routes>
     </BrowserRouter>
   );
