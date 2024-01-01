@@ -6,26 +6,25 @@ import './Donordonate.css'
 
 import 'reactjs-popup/dist/index.css';
 
-const DonorDonate = () => {
+const GetDonation = () => {
 
     const [validstatus, setvalidstatus] = useState('false')
-    
-    const [donor, setdonor] = useState('')
+
+
     const location = useLocation();
 
-    const [recieverorg, setrecieverorg] = useState()
-    let donor_Id
+    let hospital_Id
     // Access the state object, which contains the id
     try {
-        donor_Id = location.state.id || '';
+        hospital_Id = location.state.id || '';
     }
     catch {
-        donor_Id = '';
+        hospital_Id = '';
     }
 
 
 
-    const authToken = localStorage.getItem(`authToken_${donor_Id}`);
+    const authToken = localStorage.getItem(`authToken_${hospital_Id}`);
 
 
 
@@ -53,42 +52,40 @@ const DonorDonate = () => {
         }).then(() => {
 
 
-            fetch('http://localhost:3001/organizations', {
+            fetch(`http://localhost:3001/linkedorgs?id=${hospital_Id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': `${authToken}`
+                    // 'authorization': `${authToken}`
                 }
             }).then((orgs) => {
                 return orgs.json().then((orgs) => {
 
-                    console.log(orgs)
+                    console.log(orgs[0])
                     for (i; i < orgs.length; i++) {
 
                         const tr = document.createElement('tr')
-                        const { name, address, city } = orgs[i]
+
                         const td1 = document.createElement('td')
-                        td1.innerText = name
-                        const td2 = document.createElement('td')
-                        td2.innerText = city
-                        const td3 = document.createElement('td')
-                        td3.innerText = address
+                        td1.innerText = orgs[i]
+
                         const btn = document.createElement('button')
 
-                        btn.id = name
-                        btn.innerHTML = 'Donate'
+                        btn.id = orgs[i]
+                        btn.innerHTML = 'Request'
                         btn.className = 'btn  donatebutton'
                         btn.onclick = (() => {
                             setFormData({
                                 ...formData,
-                                orgname: name,
+                                orgname: btn.id,
+
                             });
+
                             document.getElementById('donationform').style.visibility = 'visible';
 
                         })
                         tr.appendChild(td1)
-                        tr.appendChild(td2)
-                        tr.appendChild(td3)
+
                         tr.appendChild(btn)
                         document.getElementById('organizationstable').appendChild(tr)
                     }
@@ -101,12 +98,13 @@ const DonorDonate = () => {
 
     const [formData, setFormData] = useState({
         orgname: '',
-        donorid: donor_Id,
-        date: '',
-        qty:'',
+        blood_group: '',
+        qty: '',
+        hospital_Id: hospital_Id,
     });
 
     const handleInput = ((e) => {
+
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -115,9 +113,9 @@ const DonorDonate = () => {
 
     })
 
-    const donateblood = ((e) => {
+    const getblood = ((e) => {
         e.preventDefault()
-        fetch('http://localhost:3001/donordonate', {
+        fetch('http://localhost:3001/hospitalrequest', {
             method: 'POST',
 
             headers: {
@@ -126,20 +124,20 @@ const DonorDonate = () => {
             body: JSON.stringify(formData),
         }).then((res) => {
             if (res.ok) {
-                return res.json().then((data)=>{
+                return res.json().then((data) => {
                     console.log(data.msg)
-                    alert('Blood donated')
+                    alert('Request Made')
                 })
             }
             else {
-              return res.json().then((err)=>{
-                console.log(err)
-              })
+                return res.json().then((err) => {
+                    console.log(err)
+                })
             }
         })
         console.log(formData)
     })
-    console.log('zaid')
+
 
 
     if (validstatus === 'true') {
@@ -154,9 +152,8 @@ const DonorDonate = () => {
                     <thead>
                         <tr>
                             <td>Organization Name</td>
-                            <td>City</td>
-                            <td>Address</td>
-                            <td>Donate</td>
+
+
                         </tr>
                     </thead>
 
@@ -167,17 +164,45 @@ const DonorDonate = () => {
                 </table>
 
 
-                <form action="" id='donationform' style={{ visibility: 'hidden' }} onSubmit={donateblood}>
+                <form action="" id='donationform' style={{ visibility: 'hidden' }} onSubmit={getblood}>
                     <div>
-                        <label htmlFor="">Blood Quantity to donate: </label>
-                        <input onChange={handleInput} type='radio' name='qty' value='0.5' />
-                        <label htmlFor="">0.5 liters</label>
-                        <input onChange={handleInput} type='radio' name='qty' value='1.0' />
-                        <label htmlFor="">1.0 liters</label>
+
+
+
+                        <label for="bloodQuantity">Blood Group:</label>
+                        <select onChange={handleInput} id="blood_group" name="blood_group" style={{ height: '5vh' }} value="A+">
+
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                          
+                        </select>
                         <br />
-                        <label htmlFor="">Donation Date: </label>
-                        <input onChange={handleInput} type='date' name='date' />
+
+
+
+
+                        <label for="bloodQuantity">Blood Quantity:</label>
+                        <select onChange={handleInput} id="bloodQuantity" name="qty" style={{ height: '5vh' }} checked>
+
+                            <option value="1">1 liter</option>
+                            <option value="2">2 liters</option>
+                            <option value="3">3 liters</option>
+                            <option value="4">4 liters</option>
+                            <option value="5">5 liters</option>
+                            <option value="6">6 liters</option>
+                            <option value="7">7 liters</option>
+                            <option value="8">8 liters</option>
+                            <option value="9">9 liters</option>
+                            <option value="10">10 liters</option>
+                        </select>
                         <br />
+
                         <button >Submit</button>
                     </div>
                 </form>
@@ -189,7 +214,7 @@ const DonorDonate = () => {
     else {
         return (
             <>
-                <p>You are not logged in as a donor.</p>
+                <p>You are not logged in as a hospital.</p>
             </>
         )
     }
@@ -197,4 +222,4 @@ const DonorDonate = () => {
 }
 
 
-export default DonorDonate
+export default GetDonation

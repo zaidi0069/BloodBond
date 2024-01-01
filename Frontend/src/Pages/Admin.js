@@ -9,49 +9,32 @@ import { Link } from 'react-router-dom'
 import './Donor.css'
 
 
-const Donor = () => {
+const Admin = () => {
   const navigate = useNavigate();
 
- 
-
-  const [trt] = useTypewriter({
-
-    words: ['Every drop you donate is a beacon of hope. You are the unsung hero who, with a simple act, can save lives and bring smiles. Be a lifesaver, be a hero—donate blood.'
-
-    ],
-    // loop: {},
-
-    typeSpeed: 100,
-
-
-
-  });
-
   const [validstatus, setvalidstatus] = useState('false')
-  const [donor, setdonor] = useState('')
-  // Use the useLocation hook to get the location object
+  const [admin, setadmin] = useState('')
+
   const location = useLocation();
-  let donor_Id
-  // Access the state object, which contains the id
+  let admin_Id
   try {
-    donor_Id = location.state.id || '';
+    admin_Id = location.state.id || '';
   }
   catch {
-    donor_Id = '';
+    admin_Id = '';
   }
 
   const navigatetodonatescreen = () => {
-    console.log('called')
-    navigate('/donate', { state: { id: donor_Id } });
+    navigate('/donate', { state: { id: admin_Id } });
   };
 
 
   const navigatetohistoryscreen = () => {
     console.log('history called')
-    navigate('/history', { state: { id: donor_Id } });
+    navigate('/history', { state: { id: admin_Id } });
   };
 
-  const authToken = localStorage.getItem(`authToken_${donor_Id}`);
+  const authToken = localStorage.getItem(`authToken_${admin_Id}`);
 
 
   // console.log(authToken)
@@ -71,9 +54,8 @@ const Donor = () => {
       }
       else return res.json();
     }).then((data) => {
-      console.log(data)
       setvalidstatus('true')
-      setdonor(data)
+      setadmin(data)
     })
 
 
@@ -88,9 +70,9 @@ const Donor = () => {
         <div className="page">
           <div className="text">
             <br />
-            <h2>Hello {donor}, Welcome to Blood Bond</h2>
+            <h2>Hello {admin}, Welcome to Blood Bond</h2>
             <br />
-            <p>{trt}</p>
+       
           </div>
 
           <div className="cards" >
@@ -122,7 +104,7 @@ const Donor = () => {
   else {
   return (
     <>
-      <p>You are not logged in as a donor.</p>
+      <p>You are not logged in as an admin.</p>
     </>
   )
 }
@@ -131,7 +113,4 @@ const Donor = () => {
 
 }
 
-
-
-
-export default Donor
+export default Admin

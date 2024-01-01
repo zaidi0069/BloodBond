@@ -122,9 +122,9 @@ const OrgDonors = () => {
                     <thead>
                         <tr>
                             <td>Name</td>
-                            <td>Email</td>
-                            <td>Blood Group</td>
                             <td>Age</td>
+                            <td>Blood Group</td>
+                            <td>Email</td>
                             <td>Address</td>
 
                         </tr>

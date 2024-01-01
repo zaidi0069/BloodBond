@@ -9,49 +9,35 @@ import { Link } from 'react-router-dom'
 import './Donor.css'
 
 
-const Donor = () => {
+const Hospital = () => {
   const navigate = useNavigate();
 
- 
-
-  const [trt] = useTypewriter({
-
-    words: ['Every drop you donate is a beacon of hope. You are the unsung hero who, with a simple act, can save lives and bring smiles. Be a lifesaver, be a hero—donate blood.'
-
-    ],
-    // loop: {},
-
-    typeSpeed: 100,
-
-
-
-  });
 
   const [validstatus, setvalidstatus] = useState('false')
-  const [donor, setdonor] = useState('')
+  const [hospital, sethospital] = useState('')
   // Use the useLocation hook to get the location object
   const location = useLocation();
-  let donor_Id
+  let hospital_Id
   // Access the state object, which contains the id
   try {
-    donor_Id = location.state.id || '';
+    hospital_Id = location.state.id || '';
   }
   catch {
-    donor_Id = '';
+    hospital_Id = '';
   }
 
-  const navigatetodonatescreen = () => {
+  const getdonation = () => {
     console.log('called')
-    navigate('/donate', { state: { id: donor_Id } });
+    navigate('/getdonation', { state: { id: hospital_Id } });
   };
 
 
-  const navigatetohistoryscreen = () => {
+  const seehistory = () => {
     console.log('history called')
-    navigate('/history', { state: { id: donor_Id } });
+    navigate('/hospitaldonationhistory', { state: { id: hospital_Id } });
   };
 
-  const authToken = localStorage.getItem(`authToken_${donor_Id}`);
+  const authToken = localStorage.getItem(`authToken_${hospital_Id}`);
 
 
   // console.log(authToken)
@@ -73,7 +59,7 @@ const Donor = () => {
     }).then((data) => {
       console.log(data)
       setvalidstatus('true')
-      setdonor(data)
+      sethospital(data)
     })
 
 
@@ -88,44 +74,44 @@ const Donor = () => {
         <div className="page">
           <div className="text">
             <br />
-            <h2>Hello {donor}, Welcome to Blood Bond</h2>
+            <h2>Hello {hospital}, Welcome to Blood Bond</h2>
             <br />
-            <p>{trt}</p>
+
           </div>
 
           <div className="cards" >
-             
-              <div class="card card1" onClick={navigatetodonatescreen}>
+
+            <div class="card card1" onClick={getdonation}>
               <img src={donateimg} class="card-img-top" alt="..." />
               <div class="card-body">
-                <h5 class="card-title">Donate Blood</h5>
-                <p class="card-text">Your Blood can save someone's life. Donate Life, Donate Blood</p>
+                <h5 class="card-title">Get Blood</h5>
+                <p class="card-text">Request blood from your linked organizations</p>
               </div>
             </div>
-          
 
-          
-            <div class="card card2" onClick={navigatetohistoryscreen}>
+
+
+            <div class="card card2" onClick={seehistory}>
               <img src={history} class="card-img-top" alt="..." />
               <div class="card-body">
-                <h5 class="card-title">Donation History</h5>
-                <p class="card-text">See how many lives have you donated</p>
+                <h5 class="card-title">Recieving History</h5>
+                <p class="card-text">Ypur blood recieving history</p>
               </div>
             </div>
           </div>
         </div>
-      
+
       </>
     )
   }
 
   else {
-  return (
-    <>
-      <p>You are not logged in as a donor.</p>
-    </>
-  )
-}
+    return (
+      <>
+        <p>You are not logged in as a hospital.</p>
+      </>
+    )
+  }
 
 
 
@@ -134,4 +120,4 @@ const Donor = () => {
 
 
 
-export default Donor
+export default Hospital

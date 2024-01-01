@@ -4,8 +4,10 @@ import Navbar from '../Components/Navbar';
 import donateimg from '../assets/donate.png'
 import { useTypewriter } from 'react-simple-typewriter'
 import history from '../assets/history.png'
+import requestpic from '../assets/request.jpg'
 import './Donor.css'
 import { useNavigate } from "react-router-dom";
+import BloodRequests from './BloodRequests';
 const Organization = () => {
 
   
@@ -57,6 +59,16 @@ const Organization = () => {
   }
 
 
+  function getrequests()
+  {
+    navigate('/bloodrequests', { state: { id: organization_Id, orgname: organization }} );
+  }
+
+  function getrequestshistory()
+  {
+    navigate('/bloodrequestshistory', { state: { id: organization_Id, orgname: organization }} );
+  }
+
   if (validstatus === 'true') {
     return (
 
@@ -81,15 +93,36 @@ const Organization = () => {
               </div>
          
 
-            <a href="">
-              <div class="card" onClick={gotodonorslist}>
+            
+              <div class="card card1" onClick={gotodonorslist}>
                 <img src={history} class="card-img-top" alt="..." />
                 <div class="card-body">
                   <h5 class="card-title">Donors List</h5>
                   <p class="card-text">See your donors</p>
                 </div>
               </div>
-            </a>
+
+              <br/>
+
+              <div class="card card1" onClick={getrequests}>
+                <img src={requestpic} class="card-img-top" alt="..." />
+                <div class="card-body">
+                  <h5 class="card-title">Blood Requests</h5>
+                  <p class="card-text">See blood request from associated organizations</p>
+                </div>
+              </div>
+
+
+
+
+              <div class="card card1" onClick={getrequestshistory}>
+                <img src={requestpic} class="card-img-top" alt="..." />
+                <div class="card-body">
+                  <h5 class="card-title">Blood Requests History</h5>
+                  <p class="card-text">See history of rejected/approved requests</p>
+                </div>
+              </div>
+         
           </div>
         </div>
       </>

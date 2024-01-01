@@ -6,16 +6,10 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 
-const donorSchema = new Schema({
+const adminSchema = new Schema({
     name: String,
-    age: Number,
     email: String,
-    mobile: String,
-    city: String,
-    address: String,
-    blood_group: String,
-    donation_frequency: String, 
-    password: String, 
+    password: String,
   });
   
 
@@ -23,7 +17,7 @@ const donorSchema = new Schema({
 
 //hashing passowrd
 
-donorSchema.pre('save',async function(next){
+adminSchema.pre('save',async function(next){
         if(this.isModified('password'))
         {
             this.password= await bcrypt.hash(this.password, 8);
@@ -35,6 +29,6 @@ donorSchema.pre('save',async function(next){
 
 
 
-const Donor = mongoose.model('Donor', donorSchema);
+const Admin = mongoose.model('Admin', adminSchema);
 
-module.exports = {Donor};
+module.exports = {Admin};

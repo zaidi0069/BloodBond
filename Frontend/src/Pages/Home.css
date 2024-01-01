@@ -1,12 +1,32 @@
 *{
-    marg: 0;
-    padd: 0;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-.body{
+.body {
     background-image: url('../assets/donation.jpg');
     height: 90vh;
+    text-align: center;
+    background-position-x: calc(100% + 400px); /* Initial position off-screen to the right */
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 400px;
+    background-color: rgb(173, 40, 40);
+    color: rgb(255, 255, 255);
+    animation: slideBackground 2s linear forwards; /* Adjust the duration as needed */
+}
+
+@keyframes slideBackground {
+    0% {
+        background-position-x: -400px; /* Start off-screen to the left */
+    }
+    100% {
+        background-position-x: calc(100%); /* Slide in from the left to the right */
+    }
+}
+
+#intro{
+    width: 40vw;
+    text-align: left;
+    margin-left: 30vw;
 }

@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 let secret = "w2dwertyuiopoiuytrewqwertyuiopoiuytrewqwertyui2d"
 const Transaction = require('../Schemas/DonortoOrgTransaction')
 const { Donor } = require('../Schemas/DonorSchema')
-
+const BloodRequests = require('../Schemas/BloodRequests')
 
 
 
@@ -55,7 +55,6 @@ const organizationlogin = (req, res) => {
     })
 
 }
-
 
 
 
@@ -122,11 +121,22 @@ const organizationsignup = (req, res) => {
 
 
 const organizations = (req, res) => {
+    let orgnames=[];
 
     Organization.find({}).then((organizations) => {
-        // Print the documents
-        res.status(200).json(organizations)
+        
+        for(let i=0; i<organizations.length; i++)
+        {
+           orgnames.push({
+            name: organizations[i].name,
+            city: organizations[i].city,
+            address: organizations[i].address
+           })
+          
+        }
+        res.status(200).json(orgnames)
     })
+
 }
 
 
@@ -170,7 +180,6 @@ const inventory = (req, res) => {
 
 const donors = (req, res) => {
     const { orgname } = req.query
-    console.log('triggered')
     Transaction.find({ orgname: orgname }).distinct('donorid').then((trans) => {
         if (trans) {
             let uniquedonors = []
@@ -205,5 +214,41 @@ const donors = (req, res) => {
 }
 
 
+const bloodrequests = (req, res)=>{
+    const orgname = req.query.orgname;
+    BloodRequests.find({organization:orgname, status:'pending'}).then((requests)=>{
+        res.send(requests)
 
-module.exports = { organizationlogin, organizationsignup, organizations, inventory, donors }
+    })
+}
+
+
+const bloodrequestshistory = (req, res)=>{
+    const orgname = req.query.orgname;
+    BloodRequests.find({organization:orgname, status: {"$in": ["rejected", "approved"]}}).then((requests)=>{
+        if(requests)
+            res.status(200).json(requests)
+        else
+        console.log('not approved/rejected req')
+
+    })
+}
+
+const orgrequesthandling = (req, res)=>{
+
+    const {reqid, status} = req.body;
+
+    BloodRequests.findById(reqid).then((req)=>{
+        req.status= status;
+
+        req.save().then(()=>{
+            res.status(200).json({msg: 'modified'})
+        }).catch((err)=>{
+            res.status(300).json({msg: 'error'})
+        })
+    })
+
+}
+
+
+module.exports = { organizationlogin, organizationsignup, organizations, inventory, donors , bloodrequests, orgrequesthandling, bloodrequestshistory}
