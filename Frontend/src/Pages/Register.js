@@ -313,6 +313,9 @@ const Register = () => {
 
 
 
+
+
+
     return (
         <>
             <Navbar />
