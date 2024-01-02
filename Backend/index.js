@@ -1,7 +1,11 @@
 const express = require('express')
 const mongooose = require('mongoose')
 const Routes = require('./Routes/Routes')
-let db= 'mongodb+srv://zaid:112234@cluster0.khcordl.mongodb.net/Blood_Donation_App'
+
+require('dotenv').config();
+
+
+const db = process.env.db;
 
 const cors = require('cors');
 
@@ -43,6 +47,8 @@ app.post('/hospitallogin', Routes)
 app.post('/hospitalrequest', Routes)
 app.post('/adminlogin', Routes)
 app.post('/adminsignup', Routes)
+app.get('/alltransactions', Routes)
+app.get('/allbloodrequests', Routes)
 
 app.listen(3001, ()=>{
     console.log("Server is running on port 3001")

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 
-import './Donordonate.css'
+import './DonorDonate.css'
 
 
 
@@ -27,7 +27,7 @@ const Orginventory = () => {
 
 
     useEffect(() => {
-        console.log('called')
+      
         fetch('http://localhost:3001/validate', {
             method: 'POST',
             headers: {
@@ -51,9 +51,10 @@ const Orginventory = () => {
 
             fetch(`http://localhost:3001/inventory?orgname=${location.state.orgname}`, {
                 
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `${authToken}`
+            },
               
             })
                 .then((inventory) => {
@@ -91,7 +92,9 @@ const Orginventory = () => {
             <>
                 <Navbar />
 
-                <h1>Inventory</h1>
+                <div className='main'>
+
+                    <h2>Inventory</h2>
 
                 <table className="table table-info table-borderless table-hover" >
                     <thead>
@@ -116,7 +119,7 @@ const Orginventory = () => {
 
                 </table>
 
-
+                </div>
 
 
             </>

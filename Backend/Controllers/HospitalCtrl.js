@@ -1,13 +1,17 @@
 const Hospital = require('../Schemas/HospitalSchema')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-let secret = "w2dwertyuiopoiuytrewqwertyuiopoiuytrewqwertyui2d"
+
 const BloodRequests = require('../Schemas/BloodRequests')
+
+require('dotenv').config();
+
+const secret = process.env.secret;
 
 
 const hospitallogin = async function (req, res) {
     try {
-        console.log('hosp login triggered')
+      
         const { email, password } = req.body;
         const hospital = await Hospital.findOne({ email });
 
@@ -29,7 +33,7 @@ const hospitallogin = async function (req, res) {
                     expiresIn: '500s'
                 }
             );
-            console.log('x')
+            
             return res.json({ id: hospital._id.toString(), token });
         }
         else {
@@ -100,7 +104,7 @@ const linkedorgs = async function (req, res) {
 
 
     Hospital.findOne({ _id: id }).then((hospital) => {
-        console.log(id)
+      
         if (hospital) {
             res.status(200).json(hospital.organizations)
         }
@@ -120,7 +124,7 @@ const hospitalrequest = async (req, res) => {
     const hospital = await Hospital.findOne({ _id: hospital_Id })
     const hospitalname = hospital.name
 
-    console.log('req called')
+  
     const request = new BloodRequests({
         hospital: hospitalname,
         organization: orgname,
@@ -133,7 +137,7 @@ const hospitalrequest = async (req, res) => {
 
     request.save().then((s) => {
         if (s) {
-            console.log('200')
+           
             res.status(200).json({
                 msg: 'request made successfully'
             });
@@ -160,8 +164,7 @@ const hospitalrequestshistory = async (req, res) => {
     const hospital = await Hospital.findOne({ _id: hospital_Id })
     const hospitalname = hospital.name
 
-    console.log(hospitalname)
-  
+
     BloodRequests.find({hospital:hospitalname}).then((req)=>{
         if(req)
         res.status(200).json(req)

@@ -76,8 +76,11 @@ const Register = () => {
                     if (!res.ok) {
                         return res.json()
                             .then((data) => {
-                                console.log(data.err)
+                                let x= document.getElementById('error')
+                                x.innerText=data.err
                             })
+
+                           
                     }
                     else return res.json();
 
@@ -313,9 +316,6 @@ const Register = () => {
 
 
 
-
-
-
     return (
         <>
             <Navbar />
@@ -333,13 +333,13 @@ const Register = () => {
                         <h5>Register as: </h5>
 
                         <label htmlhtmlFor="">Donor </label>
-                        <input required='true' type="radio" id="donor" name="role" value="donor" checked={page === 'donor'} onChange={Pagesetter} />
+                        <input required='true' type="radio" id="donor" name="role" value="donor" checked={page === 'donor'} onClick={Pagesetter} />
                         <label htmlhtmlFor="">Hospital </label>
-                        <input required='true' type="radio" id="hospital" name="role" value="hospital" onChange={Pagesetter} />
+                        <input required='true' type="radio" id="hospital" name="role" value="hospital" onClick={Pagesetter} />
                         <label htmlhtmlFor="">Organization </label>
-                        <input required='true' type="radio" id="organization" name="role" value="organization" onChange={Pagesetter} />
+                        <input required='true' type="radio" id="organization" name="role" value="organization" onClick={Pagesetter} />
                         <label htmlhtmlFor="">Admin </label>
-                        <input required='true' type="radio" id="admin" name="role" value="admin" onChange={Pagesetter} />
+                        <input required='true' type="radio" id="admin" name="role" value="admin" onClick={Pagesetter} />
                         <br />
                     </div>
                     <br />
@@ -348,7 +348,7 @@ const Register = () => {
                     {content}
 
 
-
+                    <p style={{color:'white'}} id='error'></p>
                 </div>
             </div>
         </>

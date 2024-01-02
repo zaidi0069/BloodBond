@@ -16,6 +16,8 @@ import BloodRequests from './Pages/BloodRequests';
 import BloodRequestsHistory from './Pages/BloodRequestsHistory';
 import HospitalRequestsHistory from './Pages/HospitalRequestsHistory';
 import Admin from './Pages/Admin';
+import AdminReqDashboard from './Pages/AdminReqDashboard';
+import AdmintransDashboard from './Pages/AdmintransDashboard';
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
         <Route path='/bloodrequestshistory' element={<BloodRequestsHistory/>}/>
         <Route path= '/hospitaldonationhistory' element= {<HospitalRequestsHistory/>} />
         <Route path='/admin' element={<Admin/>}/>
+        <Route path='/allbloodrequests' element={<AdminReqDashboard/>}/>
+        <Route path='/alltransactions' element={<AdmintransDashboard/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 
-import './Donordonate.css'
+import './DonorDonate.css'
 
 
 
@@ -51,9 +51,10 @@ const BloodRequests = () => {
 
             fetch(`http://localhost:3001/bloodrequests?orgname=${location.state.orgname}`, {
 
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `${authToken}`
+            },
 
             })
                 .then((requests) => {
@@ -62,11 +63,11 @@ const BloodRequests = () => {
 
 
                         return requests.json().then((requests) => {
-                            console.log(requests)
-
+                   
+                                console.log(requests)
                             for (let i = 0; i < requests.length; i++) {
                                 let row = document.createElement('tr')
-                                // row.id='donor'+i
+                                
                                 let hospitalname = document.createElement('td')
                                 hospitalname.innerText = requests[i].hospital
 
@@ -80,11 +81,17 @@ const BloodRequests = () => {
                                 let status = document.createElement('td')
                                 status.innerText = requests[i].status
 
+                                let possibility = document.createElement('td')
+                                possibility.innerText = requests[i].possibility
+
                                 let approvetd = document.createElement('td')
                                 let approvebtn= document.createElement('button')
                                 approvebtn.className = 'approvebtn btn btn-outline-success'
                                 approvebtn.innerText= 'Approve'
                                 approvetd.appendChild(approvebtn)
+
+                                if(requests[i].possibility==='false')
+                                approvebtn.disabled='true'
 
                                 approvebtn.onclick= ()=>{
                                     status.innerText='Approved'
@@ -93,6 +100,7 @@ const BloodRequests = () => {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
+                                            'authorization': `${authToken}`
                                         },
                                         body: JSON.stringify({reqid: requests[i]._id, status:'approved'}),
                                     })
@@ -104,7 +112,7 @@ const BloodRequests = () => {
                                 
                                 let rejecttd = document.createElement('td')
                                 let rejectbtn = document.createElement('button')
-                                rejectbtn.className = 'rejectbtn btn btn-outline-danger'
+                                rejectbtn.className = 'rejectbtn btn btn-outline-light'
                                 rejectbtn.innerText='Reject'
                                 rejecttd.appendChild(rejectbtn)
 
@@ -116,6 +124,7 @@ const BloodRequests = () => {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
+                                            'authorization': `${authToken}`
                                         },
                                         body: JSON.stringify({reqid: requests[i]._id, status: 'rejected'}),
                                     })
@@ -129,6 +138,7 @@ const BloodRequests = () => {
                                 row.appendChild(bloodgroup)
                                 row.appendChild(qty)
                                 row.appendChild(status)
+                                row.appendChild(possibility)
                                 row.appendChild(rejecttd)
                                 row.appendChild(approvetd)
 
@@ -159,7 +169,8 @@ const BloodRequests = () => {
             <>
                 <Navbar />
 
-                <h1>Donors List</h1>
+                <div className='main'>
+                <h2>Pending Blood Requests</h2>
 
                 <table className="table table-info table-borderless table-hover" >
                     <thead>
@@ -168,6 +179,7 @@ const BloodRequests = () => {
                             <td>Blood Group</td>
                             <td>Quantity</td>
                             <td>Status</td>
+                            <td>Possibility</td>
                             <td>Reject</td>
                             <td>Approve</td>
                         
@@ -182,7 +194,7 @@ const BloodRequests = () => {
 
                 </table>
 
-
+                </div>
 
 
             </>

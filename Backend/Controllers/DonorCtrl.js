@@ -2,8 +2,9 @@ const { Donor } = require('../Schemas/DonorSchema')
 const Transaction = require('../Schemas/DonortoOrgTransaction')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-let secret = "w2dwertyuiopoiuytrewqwertyuiopoiuytrewqwertyui2d"
+require('dotenv').config();
 
+const secret = process.env.secret;
 const donorlogin = async function (req, res) {
 
     const { email, password } = req.body
@@ -103,7 +104,7 @@ const donordonate = (req, res) => {
     Donor.findOne({ _id: donorid }).then((donor) => {
         if (!donor) {
             res.status(300).json({ error: 'Unexpected error happened' })
-            // console.log('not found')
+         
         }
         else {
 
@@ -132,7 +133,7 @@ const donordonate = (req, res) => {
 
 const history = ((req, res) => {
     const { donorid } = req.body
-    console.log(donorid)
+
     Transaction.find({ donorid: donorid }).then((transactions)=>{
         if(transactions){
             res.status(200).json({transactions: transactions})

@@ -3,9 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import Navbar from '../Components/Navbar';
 import donateimg from '../assets/donate.png'
-import { useTypewriter } from 'react-simple-typewriter'
 import history from '../assets/history.png'
-import { Link } from 'react-router-dom'
 import './Donor.css'
 
 
@@ -27,20 +25,20 @@ const Hospital = () => {
   }
 
   const getdonation = () => {
-    console.log('called')
+    
     navigate('/getdonation', { state: { id: hospital_Id } });
   };
 
 
   const seehistory = () => {
-    console.log('history called')
+    
     navigate('/hospitaldonationhistory', { state: { id: hospital_Id } });
   };
 
   const authToken = localStorage.getItem(`authToken_${hospital_Id}`);
 
 
-  // console.log(authToken)
+
   useEffect(() => {
 
     fetch('http://localhost:3001/validate', {
@@ -57,7 +55,7 @@ const Hospital = () => {
       }
       else return res.json();
     }).then((data) => {
-      console.log(data)
+   
       setvalidstatus('true')
       sethospital(data)
     })
@@ -100,6 +98,7 @@ const Hospital = () => {
             </div>
           </div>
         </div>
+
       </>
     )
   }

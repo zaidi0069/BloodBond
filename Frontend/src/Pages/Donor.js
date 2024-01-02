@@ -5,7 +5,6 @@ import Navbar from '../Components/Navbar';
 import donateimg from '../assets/donate.png'
 import { useTypewriter } from 'react-simple-typewriter'
 import history from '../assets/history.png'
-import { Link } from 'react-router-dom'
 import './Donor.css'
 
 
@@ -21,7 +20,7 @@ const Donor = () => {
     ],
     // loop: {},
 
-    typeSpeed: 100,
+    typeSpeed: 10,
 
 
 
@@ -41,20 +40,20 @@ const Donor = () => {
   }
 
   const navigatetodonatescreen = () => {
-    console.log('called')
+   
     navigate('/donate', { state: { id: donor_Id } });
   };
 
 
   const navigatetohistoryscreen = () => {
-    console.log('history called')
+
     navigate('/history', { state: { id: donor_Id } });
   };
 
   const authToken = localStorage.getItem(`authToken_${donor_Id}`);
 
 
-  // console.log(authToken)
+ 
   useEffect(() => {
 
     fetch('http://localhost:3001/validate', {
@@ -71,7 +70,7 @@ const Donor = () => {
       }
       else return res.json();
     }).then((data) => {
-      console.log(data)
+     
       setvalidstatus('true')
       setdonor(data)
     })

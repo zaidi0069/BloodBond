@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 
-import './Donordonate.css'
+import './DonorDonate.css'
 
 
 
@@ -50,9 +50,10 @@ const BloodRequestsHistory = () => {
 
             fetch(`http://localhost:3001/bloodrequestshistory?orgname=${location.state.orgname}`, {
                
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `${authToken}`
+            },
 
             })
                 .then((requests) => {
@@ -117,7 +118,8 @@ const BloodRequestsHistory = () => {
             <>
                 <Navbar />
 
-                <h1>Donors List</h1>
+                <div className='main'>
+                    <h2>Blood Requests History</h2>
 
                 <table className="table table-info table-borderless table-hover" >
                     <thead>
@@ -140,7 +142,7 @@ const BloodRequestsHistory = () => {
                 </table>
 
 
-
+                </div>
 
             </>
         )

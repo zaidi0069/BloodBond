@@ -6,26 +6,26 @@ import './DonorDonate.css'
 
 
 
-const HospitalRequestsHistory = () => {
+const AdmintransDashboard = () => {
 
 
     const [validstatus, setvalidstatus] = useState('false')
 
     const location = useLocation();
 
-    let hospital_Id
+    let admin_Id
     // Access the state object, which contains the id
     try {
-        hospital_Id = location.state.id || '';
+        admin_Id = location.state.id || '';
     }
     catch {
-        hospital_Id = '';
+        admin_Id = '';
     }
 
 
 
 
-    const authToken = localStorage.getItem(`authToken_${hospital_Id}`);
+    const authToken = localStorage.getItem(`authToken_${admin_Id}`);
 
 
     useEffect(() => {
@@ -48,25 +48,29 @@ const HospitalRequestsHistory = () => {
         }).then(() => {
 
 
-            fetch(`http://localhost:3001/hospitalrequestshistory?hospitalid=${hospital_Id}`, {
+            fetch(`http://localhost:3001/alltransactions`, {
                
             headers: {
-                'Content-Type': 'application/json',
-                'authorization': `${authToken}`
-            },
-
+              'Content-Type': 'application/json',
+              'authorization': `${authToken}`
+          },
             })
                 .then((requests) => {
-
+                       
                     if (requests.ok) {
+
+
                         return requests.json().then((requests) => {
-                        
+                          
 
                             for (let i = 0; i < requests.length; i++) {
                                 let row = document.createElement('tr')
-                                // row.id='donor'+i
-                                let hospitalname = document.createElement('td')
-                                hospitalname.innerText = requests[i].hospital
+                             
+                                let donorname = document.createElement('td')
+                                donorname.innerText = requests[i].donorName
+
+                                let orgname = document.createElement('td')
+                                orgname.innerText = requests[i].orgname
 
 
                                 let bloodgroup = document.createElement('td')
@@ -75,17 +79,18 @@ const HospitalRequestsHistory = () => {
                                 let qty = document.createElement('td')
                                 qty.innerText = requests[i].quantity
 
-                                let status = document.createElement('td')
-                                status.innerText = requests[i].status
+                                let date = document.createElement('td')
+                                date.innerText = requests[i].date
 
                             
                                     
                                 
 
-                                row.appendChild(hospitalname)
+                                row.appendChild(donorname)
+                                row.appendChild(orgname)
                                 row.appendChild(bloodgroup)
                                 row.appendChild(qty)
-                                row.appendChild(status)
+                                row.appendChild(date)
                               
                                 document.getElementById('donorstable').appendChild(row)
                             }
@@ -116,15 +121,17 @@ const HospitalRequestsHistory = () => {
             <>
                 <Navbar />
 
-                
-            <div className='main'>
+                <div className='main'>
+                    <h2>Blood Requests History</h2>
+
                 <table className="table table-info table-borderless table-hover" >
                     <thead>
                         <tr>
-                            <td>Hospital</td>
+                            <td>Donor</td>
+                            <td>Organization</td>
                             <td>Blood Group</td>
                             <td>Quantity</td>
-                            <td>Status</td>
+                            <td>Date</td>
                          
                         
                         </tr>
@@ -148,7 +155,7 @@ const HospitalRequestsHistory = () => {
     else {
         return (
             <>
-                <p>You are not logged in as a hospital.</p>
+                <p>You are not logged in as an admin.</p>
             </>
         )
     }
@@ -157,4 +164,4 @@ const HospitalRequestsHistory = () => {
 
 
 
-export default HospitalRequestsHistory
+export default AdmintransDashboard

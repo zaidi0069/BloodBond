@@ -1,17 +1,19 @@
 *{
-    marg: 0;
-    padding: 0;
+    margin: 0;
+    padding: 0; 
     box-sizing: border-box;
 }
 
 .page{
     height: 90vh;
-    background-color: antiquewhite;
+    background-color: rgb(173, 40, 40);
+    color: rgb(0, 0, 0);
 }
 
 .text{
-    width: 50vw;
-    margin-left: 25%;
+    width: 80vw;
+    margin-left: 10%;
+    height: 30vh;
     
     text-align: center;
 }
@@ -36,12 +38,13 @@
 .card{
     width: 15rem;
     opacity: 0.7;
-    height: 60vh;
+    height: 50vh;
    
 }
 
 .card1 img{
-    width: 10rem;
+    width: 12rem;
+    height: 9rem;
 }
 
 .card:hover{

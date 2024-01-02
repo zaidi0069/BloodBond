@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
-
-import './Donordonate.css'
-
-
+import './DonorHistory.css'
 
 const DonorHistory = () => {
 
@@ -26,9 +23,8 @@ const DonorHistory = () => {
 
 
     let i = 0
-    // console.log(authToken)
+  
     useEffect(() => {
-        console.log('called')
         fetch('http://localhost:3001/validate', {
             method: 'POST',
             headers: {
@@ -53,6 +49,7 @@ const DonorHistory = () => {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': `${authToken}`
                 },
                 body: JSON.stringify({ donorid: donor_Id }),
             })
@@ -63,16 +60,12 @@ const DonorHistory = () => {
                         return donations.json().then((donations) => {
 
                             if (donations.transactions.length < 1) {
-                                alert('BSDK PEHLE DONATE KAR')
+                                alert('No donations... Donate First')
                                 
                             }
                             else {
                                 for (i; i < donations.transactions.length; i++) {
 
-
-
-
-                                    console.log('x')
                                     const donation = donations.transactions[i]
 
                                     const tr = document.createElement('tr')
@@ -111,10 +104,13 @@ const DonorHistory = () => {
 
             <>
                 <Navbar />
+                <div className='main'>
 
-                <h1>history</h1>
+                
+                <h2>History</h2>
+                <br></br>
 
-                <table className="table table-info table-borderless table-hover" >
+                <table className=" table  table-borderless table-hover" >
                     <thead>
                         <tr>
                             <td>Organization Name</td>
@@ -129,7 +125,7 @@ const DonorHistory = () => {
 
                 </table>
 
-
+                </div>
 
 
             </>

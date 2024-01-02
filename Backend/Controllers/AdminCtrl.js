@@ -2,7 +2,11 @@ const { Admin } = require('../Schemas/AdminSchema')
 const Transaction = require('../Schemas/DonortoOrgTransaction')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-let secret = "w2dwertyuiopoiuytrewqwertyuiopoiuytrewqwertyui2d"
+
+const BloodRequests = require('../Schemas/BloodRequests')
+require('dotenv').config();
+
+const secret = process.env.secret;
 
 const adminlogin = async function (req, res) {
 
@@ -80,4 +84,32 @@ const adminsignup = async function (req, res) {
 }
 
 
-module.exports = { adminsignup, adminlogin}
+
+
+const allbloodrequests = (req, res) => {
+
+    BloodRequests.find({}).then((requests) => {
+        if (requests)
+            res.status(200).json(requests)
+        else
+            console.log('no reqs found')
+
+    })
+}
+
+
+
+const alltransactions = (req, res) => {
+
+    Transaction.find({}).then((transactions) => {
+        if (transactions)
+            res.status(200).json(transactions)
+        else
+            console.log('no transactions found')
+
+    })
+}
+
+
+
+module.exports = { adminsignup, adminlogin, allbloodrequests, alltransactions}

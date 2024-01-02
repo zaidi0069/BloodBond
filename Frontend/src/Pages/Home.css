@@ -1,19 +1,27 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
 }
 
 .body {
     background-image: url('../assets/donation.jpg');
     height: 90vh;
     text-align: center;
-    background-position-x: calc(100% + 400px); /* Initial position off-screen to the right */
+    background-position-x: calc(100% + 400px);
     background-repeat: no-repeat;
     background-size: 400px;
     background-color: rgb(173, 40, 40);
     color: rgb(255, 255, 255);
-    animation: slideBackground 2s linear forwards; /* Adjust the duration as needed */
+    animation: slideBackground 2s linear forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 @keyframes slideBackground {
@@ -25,8 +33,17 @@
     }
 }
 
-#intro{
-    width: 40vw;
+#intro {
+    width: 60%;
+    max-width: 600px;
     text-align: left;
-    margin-left: 30vw;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(173, 40, 40, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#intro p {
+    margin-bottom: 10px;
 }

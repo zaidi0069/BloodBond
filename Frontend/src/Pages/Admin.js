@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import Navbar from '../Components/Navbar';
-import donateimg from '../assets/donate.png'
-import { useTypewriter } from 'react-simple-typewriter'
+import requestimg from '../assets/request.jpg'
 import history from '../assets/history.png'
-import { Link } from 'react-router-dom'
 import './Donor.css'
 
 
@@ -24,14 +22,14 @@ const Admin = () => {
     admin_Id = '';
   }
 
-  const navigatetodonatescreen = () => {
-    navigate('/donate', { state: { id: admin_Id } });
+  const navigatetorequestsscreen = () => {
+    navigate('/allbloodrequests', { state: { id: admin_Id } });
   };
 
 
   const navigatetohistoryscreen = () => {
     console.log('history called')
-    navigate('/history', { state: { id: admin_Id } });
+    navigate('/alltransactions', { state: { id: admin_Id } });
   };
 
   const authToken = localStorage.getItem(`authToken_${admin_Id}`);
@@ -77,11 +75,11 @@ const Admin = () => {
 
           <div className="cards" >
              
-              <div class="card card1" onClick={navigatetodonatescreen}>
-              <img src={donateimg} class="card-img-top" alt="..." />
+              <div class="card card1" onClick={navigatetorequestsscreen}>
+              <img src={requestimg} class="card-img-top" alt="..." />
               <div class="card-body">
-                <h5 class="card-title">Donate Blood</h5>
-                <p class="card-text">Your Blood can save someone's life. Donate Life, Donate Blood</p>
+                <h5 class="card-title">All Blood Requests</h5>
+                <p class="card-text">See all blood requests ever made</p>
               </div>
             </div>
           
@@ -90,8 +88,8 @@ const Admin = () => {
             <div class="card card2" onClick={navigatetohistoryscreen}>
               <img src={history} class="card-img-top" alt="..." />
               <div class="card-body">
-                <h5 class="card-title">Donation History</h5>
-                <p class="card-text">See how many lives have you donated</p>
+                <h5 class="card-title">Blood Transactions</h5>
+                <p class="card-text">See all blood transactions ever made</p>
               </div>
             </div>
           </div>

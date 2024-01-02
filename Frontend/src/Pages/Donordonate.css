@@ -3,11 +3,17 @@
     padding: 0;
     box-sizing: border-box;
 }
+.main{
+    min-height: 90vh;
+    background-color: rgb(203, 52, 70);
+    color: white;
+    
+}
 
 .donatebutton {
     margin-right: 10px;
-    background-color: aliceblue;
-    color: rgb(60, 0, 255);
+    background-color: rgb(203, 52, 70);
+    color: rgb(234, 234, 234);
     font-size: 20px;
 
 }
@@ -19,7 +25,7 @@ table thead tr td {
 
 #donationform {
 
-    background-color: rgb(147, 79, 212);
+ 
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
@@ -32,16 +38,23 @@ table thead tr td {
 
 #donationform button {
     padding: 8px 16px;
-    background-color: #4caf50;
-    color: #fff;
+   
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.296);
+    color: white;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+  }
+
+  #donationform button:hover{
+    background-color: rgb(160, 83, 83);
   }
   
-  #donationform button:hover {
-    background-color: #45a049;
-  }
+ 
 
 #donationform label {
    
@@ -52,4 +65,6 @@ table thead tr td {
 .table {
     width: 80vw;
     margin-left: 10%;
+    height: 55vh;
 }
+

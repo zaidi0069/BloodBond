@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 
-import './Donordonate.css'
+import './DonorDonate.css'
 
 
 
@@ -30,7 +30,6 @@ const OrgDonors = () => {
 
     useEffect(() => {
 
-        console.log('1')
         fetch('http://localhost:3001/validate', {
             method: 'POST',
             headers: {
@@ -50,11 +49,10 @@ const OrgDonors = () => {
 
             
                 fetch(`http://localhost:3001/donors?orgname=${location.state.orgname}`, {
-
                     headers: {
                         'Content-Type': 'application/json',
+                        'authorization': `${authToken}`
                     },
-
                 })
                     .then((donors) => {
                         
@@ -62,8 +60,7 @@ const OrgDonors = () => {
 
 
                             return donors.json().then((donors) => {
-                                console.log(donors)
-
+                              
                                 for (let i = 0; i < donors.length; i++) {
                                     let row = document.createElement('tr')
                                     // row.id='donor'+i
@@ -116,7 +113,8 @@ const OrgDonors = () => {
             <>
                 <Navbar />
 
-                <h1>Donors List</h1>
+                <div className='main'>
+                    <h2>Donors' List</h2>
 
                 <table className="table table-info table-borderless table-hover" >
                     <thead>
@@ -137,7 +135,7 @@ const OrgDonors = () => {
                     </tbody>
 
                 </table>
-
+                </div>
 
 
 

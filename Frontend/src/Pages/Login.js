@@ -37,7 +37,7 @@ const Login = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                },
+                  },
                 body: JSON.stringify(formData),
             })
                 .then((res) => {
@@ -118,6 +118,7 @@ const Login = () => {
 
 
         else if (e.target.value === 'admin') {
+            setpage('admin')
             setloginAPI('http://localhost:3001/adminlogin')
         }
 
@@ -178,7 +179,7 @@ const Login = () => {
                         </div>
 
 
-                        <p style={{color:'red'}} id='error'></p>
+                        <p style={{color:'white'}} id='error'></p>
                     </form>
 
 

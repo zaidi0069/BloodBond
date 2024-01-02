@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
 
-import './Donordonate.css'
-
-import 'reactjs-popup/dist/index.css';
+import './DonorHistory.css'
 
 const GetDonation = () => {
 
@@ -29,7 +27,7 @@ const GetDonation = () => {
 
 
     let i = 0
-    // console.log(authToken)
+
     useEffect(() => {
 
         fetch('http://localhost:3001/validate', {
@@ -56,18 +54,23 @@ const GetDonation = () => {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'authorization': `${authToken}`
-                }
+                    'authorization': `${authToken}`
+                },
             }).then((orgs) => {
                 return orgs.json().then((orgs) => {
 
-                    console.log(orgs[0])
+                  
                     for (i; i < orgs.length; i++) {
 
-                        const tr = document.createElement('tr')
+                        const tr = document.createElement('tr');
+                        tr.style.padding='0px'
+                        tr.style.maxHeight='10px'
+
 
                         const td1 = document.createElement('td')
                         td1.innerText = orgs[i]
+                        td1.style.padding = '0px';
+
 
                         const btn = document.createElement('button')
 
@@ -87,7 +90,9 @@ const GetDonation = () => {
                         tr.appendChild(td1)
 
                         tr.appendChild(btn)
-                        document.getElementById('organizationstable').appendChild(tr)
+                        
+                        
+                        document.getElementById('organizationtable').appendChild(tr)
                     }
                 })
             })
@@ -98,8 +103,8 @@ const GetDonation = () => {
 
     const [formData, setFormData] = useState({
         orgname: '',
-        blood_group: '',
-        qty: '',
+        blood_group: 'A+',
+        qty: '1',
         hospital_Id: hospital_Id,
     });
 
@@ -120,12 +125,13 @@ const GetDonation = () => {
 
             headers: {
                 'Content-Type': 'application/json',
+                'authorization': `${authToken}`
             },
             body: JSON.stringify(formData),
         }).then((res) => {
             if (res.ok) {
                 return res.json().then((data) => {
-                    console.log(data.msg)
+                   
                     alert('Request Made')
                 })
             }
@@ -135,7 +141,7 @@ const GetDonation = () => {
                 })
             }
         })
-        console.log(formData)
+       
     })
 
 
@@ -146,67 +152,70 @@ const GetDonation = () => {
             <>
                 <Navbar />
 
-                <h1>hello</h1>
+                <div className='main' >
 
-                <table className="table table-info table-borderless table-hover" >
-                    <thead>
-                        <tr>
-                            <td>Organization Name</td>
-
-
-                        </tr>
-                    </thead>
-
-                    <tbody id='organizationstable'>
-
-                    </tbody>
-
-                </table>
-
-
-                <form action="" id='donationform' style={{ visibility: 'hidden' }} onSubmit={getblood}>
-                    <div>
-
-
-
-                        <label for="bloodQuantity">Blood Group:</label>
-                        <select onChange={handleInput} id="blood_group" name="blood_group" style={{ height: '5vh' }} value="A+">
-
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                          
-                        </select>
-                        <br />
+                    <table className="table  table-borderless table-hover" >
+                        <thead>
+                            <tr style={{ 'max-height': '20px' }}>
+                                <td>Organization Name</td>
+                                <td>Request Blood</td>
+                            </tr>
 
 
 
 
-                        <label for="bloodQuantity">Blood Quantity:</label>
-                        <select onChange={handleInput} id="bloodQuantity" name="qty" style={{ height: '5vh' }} checked>
+                        </thead>
 
-                            <option value="1">1 liter</option>
-                            <option value="2">2 liters</option>
-                            <option value="3">3 liters</option>
-                            <option value="4">4 liters</option>
-                            <option value="5">5 liters</option>
-                            <option value="6">6 liters</option>
-                            <option value="7">7 liters</option>
-                            <option value="8">8 liters</option>
-                            <option value="9">9 liters</option>
-                            <option value="10">10 liters</option>
-                        </select>
-                        <br />
+                        <tbody id='organizationtable'>
 
-                        <button >Submit</button>
-                    </div>
-                </form>
+                        </tbody>
 
+                    </table>
+
+
+                    <form action="" id='donationform' style={{ visibility: 'hidden' }} onSubmit={getblood}>
+                        <div>
+
+
+
+                            <label htmlFor="blood_group">Blood Group:</label>
+                            <select onChange={handleInput} id="blood_group" name="blood_group" style={{ height: '5vh' }} required >
+
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+
+                            </select>
+                            <br />
+
+
+
+
+                            <label htmlFor="bloodQuantity">Blood Quantity:</label>
+                            <select onChange={handleInput} id="bloodQuantity" name="qty" style={{ height: '5vh' }} required>
+
+                                <option  value="1">1 liter</option>
+                                <option value="2">2 liters</option>
+                                <option value="3">3 liters</option>
+                                <option value="4">4 liters</option>
+                                <option value="5">5 liters</option>
+                                <option value="6">6 liters</option>
+                                <option value="7">7 liters</option>
+                                <option value="8">8 liters</option>
+                                <option value="9">9 liters</option>
+                                <option value="10">10 liters</option>
+                            </select>
+                            <br />
+
+                            <button >Submit</button>
+                        </div>
+                    </form>
+                </div>
             </>
         )
     }

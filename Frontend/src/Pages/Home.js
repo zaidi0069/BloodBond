@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
 import './Home.css'
-import img from '../assets/donation.jpg'
 import { useTypewriter } from 'react-simple-typewriter'
 
 
@@ -16,7 +15,7 @@ const Home = () => {
     ],
     // loop: {},
   
-    typeSpeed: 60,
+    typeSpeed: 10,
   
   
   

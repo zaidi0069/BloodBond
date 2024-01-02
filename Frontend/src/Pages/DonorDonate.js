@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import Navbar from '../Components/Navbar';
+import './DonorDonate.css'
 
-import './Donordonate.css'
-
-import 'reactjs-popup/dist/index.css';
 
 const DonorDonate = () => {
 
@@ -28,9 +26,11 @@ const DonorDonate = () => {
     const authToken = localStorage.getItem(`authToken_${donor_Id}`);
 
 
+  
+      
 
     let i = 0
-    // console.log(authToken)
+   
     useEffect(() => {
 
         fetch('http://localhost:3001/validate', {
@@ -62,7 +62,7 @@ const DonorDonate = () => {
             }).then((orgs) => {
                 return orgs.json().then((orgs) => {
 
-                    console.log(orgs)
+                   
                     for (i; i < orgs.length; i++) {
 
                         const tr = document.createElement('tr')
@@ -122,12 +122,13 @@ const DonorDonate = () => {
 
             headers: {
                 'Content-Type': 'application/json',
+                'authorization': `${authToken}`
             },
             body: JSON.stringify(formData),
         }).then((res) => {
             if (res.ok) {
                 return res.json().then((data)=>{
-                    console.log(data.msg)
+                   
                     alert('Blood donated')
                 })
             }
@@ -137,9 +138,9 @@ const DonorDonate = () => {
               })
             }
         })
-        console.log(formData)
+        
     })
-    console.log('zaid')
+  
 
 
     if (validstatus === 'true') {
@@ -148,9 +149,8 @@ const DonorDonate = () => {
             <>
                 <Navbar />
 
-                <h1>hello</h1>
-
-                <table className="table table-info table-borderless table-hover" >
+               <div className='main'>
+                <table className="table  table-hover" >
                     <thead>
                         <tr>
                             <td>Organization Name</td>
@@ -170,19 +170,20 @@ const DonorDonate = () => {
                 <form action="" id='donationform' style={{ visibility: 'hidden' }} onSubmit={donateblood}>
                     <div>
                         <label htmlFor="">Blood Quantity to donate: </label>
-                        <input onChange={handleInput} type='radio' name='qty' value='0.5' />
+                        <input required onChange={handleInput} type='radio' name='qty' value='0.5' />
                         <label htmlFor="">0.5 liters</label>
-                        <input onChange={handleInput} type='radio' name='qty' value='1.0' />
+                        <input required onChange={handleInput} type='radio' name='qty' value='1.0' />
                         <label htmlFor="">1.0 liters</label>
                         <br />
-                        <label htmlFor="">Donation Date: </label>
-                        <input onChange={handleInput} type='date' name='date' />
+                        <label  htmlFor="">Donation Date: </label>
+                        <input required min='2024-01-02' onChange={handleInput} type='date' name='date' />
                         <br />
-                        <button >Submit</button>
+                        <button>Submit</button>
                     </div>
                 </form>
-
+                </div>
             </>
+
         )
     }
 

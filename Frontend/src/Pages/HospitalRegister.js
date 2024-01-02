@@ -52,9 +52,7 @@ const HospitalRegister = () => {
         try {
 
             e.preventDefault()
-            console.log(selectedorgs)
-            console.log(formData)
-            console.log(JSON.stringify(requestBody))
+          
             fetch('http://localhost:3001/hospitalsignup', {
                 method: 'POST',
 
@@ -114,13 +112,18 @@ const HospitalRegister = () => {
             var checkboxesContainer = document.getElementById('organizationsrow');
 
             if (!checkboxesContainer.hasChildNodes()) {
-                console.log('hi')
-                fetch('http://localhost:3001/organizations').then((res) => {
+              
+                fetch('http://localhost:3001/organizations', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        
+                    },
+                }).then((res) => {
                     return res.json()
                 }).then((orgs) => {
                     return orgs
                 }).then((organizations) => {
-                    console.log(organizations)
+                
 
                     for (var i = 0; i < organizations.length; i++) {
                         var checkboxLabel = document.createElement('label');

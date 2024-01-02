@@ -1,0 +1,77 @@
+.organization-page {
+    font-family: 'Arial', sans-serif;
+    background-color: #761818;
+    min-height: 90vh;
+    color: #ffffff;
+  }
+  
+  .organization-text {
+    text-align: center;
+  }
+  
+  .organization-cards {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap to the next line on smaller screens */
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #000;
+  }
+  
+  .organization-card {
+    width: 100%; /* Take full width on smaller screens */
+    max-width: 250px; /* Limit maximum width */
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    min-height: 270px;
+  }
+  
+  .organization-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .organization-card1 {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .organization-card-img-top {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .organization-card-body {
+    padding: 15px;
+  }
+  
+  .organization-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .organization-card-text {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .organization-cards-row2 {
+    margin-top: 20px;
+  }
+  
+  /* Media Query for smaller screens */
+  @media screen and (max-width: 768px) {
+    .organization-cards {
+      flex-direction: column; /* Stack cards vertically on smaller screens */
+    }
+  
+    .organization-card {
+      max-width: 80%; /* Take full width on smaller screens */
+    }
+  }
+  

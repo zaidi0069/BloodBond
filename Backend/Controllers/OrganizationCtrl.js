@@ -2,12 +2,15 @@
 const Organization = require('../Schemas/OrganizationSchema')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-let secret = "w2dwertyuiopoiuytrewqwertyuiopoiuytrewqwertyui2d"
+
 const Transaction = require('../Schemas/DonortoOrgTransaction')
+
 const { Donor } = require('../Schemas/DonorSchema')
 const BloodRequests = require('../Schemas/BloodRequests')
 
+require('dotenv').config();
 
+const secret = process.env.secret;
 
 
 const organizationlogin = (req, res) => {
@@ -121,18 +124,17 @@ const organizationsignup = (req, res) => {
 
 
 const organizations = (req, res) => {
-    let orgnames=[];
+    let orgnames = [];
 
     Organization.find({}).then((organizations) => {
-        
-        for(let i=0; i<organizations.length; i++)
-        {
-           orgnames.push({
-            name: organizations[i].name,
-            city: organizations[i].city,
-            address: organizations[i].address
-           })
-          
+
+        for (let i = 0; i < organizations.length; i++) {
+            orgnames.push({
+                name: organizations[i].name,
+                city: organizations[i].city,
+                address: organizations[i].address
+            })
+
         }
         res.status(200).json(orgnames)
     })
@@ -156,22 +158,52 @@ const inventory = (req, res) => {
                 else if (transactions[i].blood_group === 'O+') { inventory[7] += transactions[i].quantity }
             }
 
-            let blood_inventory = {
-                "A+": inventory[0],
-                "A-": inventory[1],
-                "B+": inventory[2],
-                "B-": inventory[3],
-                "AB+": inventory[4],
-                "AB-": inventory[5],
-                "O+": inventory[6],
-                "O-": inventory[7]
-            }
-            res.send(blood_inventory)
+         
+           
 
         }
         else {
             res.send('ewd eerror')
         }
+    })
+
+
+    BloodRequests.find({ organization: orgname, status: 'approved' }).then((requests) => {
+        if(requests)
+        {
+
+       
+        for (let i = 0; i < requests.length; i++) 
+        {
+
+            if (requests[i].blood_group === 'A+' ) { inventory[0] -=requests[i].quantity }
+            else if (requests[i].blood_group === 'A-' ) { inventory[1] -=requests[i].quantity}
+            else if (requests[i].blood_group === 'B+') { inventory[2] -=requests[i].quantity}
+            else if (requests[i].blood_group === 'B-') { inventory[3] -=requests[i].quantity}
+            else if (requests[i].blood_group === 'AB+') { inventory[4] -=requests[i].quantity }
+            else if (requests[i].blood_group === 'AB-') { inventory[5] -=requests[i].quantity}
+            else if (requests[i].blood_group === 'O+') { inventory[6] -=requests[i].quantity }
+            else if (requests[i].blood_group === 'O-') {inventory[7] -=requests[i].quantity}
+
+        
+        }
+
+
+        let blood_inventory = {
+            "A+": inventory[0],
+            "A-": inventory[1],
+            "B+": inventory[2],
+            "B-": inventory[3],
+            "AB+": inventory[4],
+            "AB-": inventory[5],
+            "O+": inventory[6],
+            "O-": inventory[7]
+        }
+
+
+        res.status(200).json(blood_inventory)
+        
+    }
     })
 
 }
@@ -184,10 +216,10 @@ const donors = (req, res) => {
         if (trans) {
             let uniquedonors = []
 
-        
-                Donor.find({ _id: trans }).then((donor) => {
 
-                  for(let d in donor)
+            Donor.find({ _id: trans }).then((donor) => {
+
+                for (let d in donor)
                     if (d) {
                         uniquedonors.push({
                             email: donor[d].email,
@@ -195,16 +227,17 @@ const donors = (req, res) => {
                             name: donor[d].name,
                             blood_group: donor[d].blood_group,
                             address: donor[d].address
-                        }) 
+                        })
                     }
-                    
+
                     else {
                         res.status(300).send('error')
                     }
-                    
-                }).then(()=>{
-                    res.status(200).json(uniquedonors)})
-        
+
+            }).then(() => {
+                res.status(200).json(uniquedonors)
+            })
+
         }
         else
             res.status(300).send('errr')
@@ -214,41 +247,105 @@ const donors = (req, res) => {
 }
 
 
-const bloodrequests = (req, res)=>{
-    const orgname = req.query.orgname;
-    BloodRequests.find({organization:orgname, status:'pending'}).then((requests)=>{
+const bloodrequests = (req, res) => {
+
+    const { orgname } = req.query
+
+    let inventory = [0, 0, 0, 0, 0, 0, 0, 0]; //A+, A-, B+, B-, AB+, AB-,O+, O- 
+
+    Transaction.find({ orgname: orgname }).then((transactions) => {
+        if (transactions) {
+            for (let i = 0; i < transactions.length; i++) {
+                if (transactions[i].blood_group === 'A+') { inventory[0] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'A-') { inventory[1] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'B+') { inventory[2] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'B-') { inventory[3] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'AB+') { inventory[4] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'AB+') { inventory[5] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'O+') { inventory[6] += transactions[i].quantity }
+                else if (transactions[i].blood_group === 'O+') { inventory[7] += transactions[i].quantity }
+            }
+
+          
+
+
+        }
+        else {
+            res.send('ewd eerror')
+        }
+    })
+
+    //calculating if the blood is available
+
+
+    
+    BloodRequests.find({ organization: orgname, status: 'approved' }).then((requests) => {
+
+        for (let i = 0; i < requests.length; i++) 
+        {
+
+            if (requests[i].blood_group === 'A+' ) { inventory[0] -=requests[i].quantity }
+            else if (requests[i].blood_group === 'A-' ) { inventory[1] -=requests[i].quantity}
+            else if (requests[i].blood_group === 'B+') { inventory[2] -=requests[i].quantity}
+            else if (requests[i].blood_group === 'B-') { inventory[3] -=requests[i].quantity}
+            else if (requests[i].blood_group === 'AB+') { inventory[4] -=requests[i].quantity }
+            else if (requests[i].blood_group === 'AB-') { inventory[5] -=requests[i].quantity}
+            else if (requests[i].blood_group === 'O+') { inventory[6] -=requests[i].quantity }
+            else if (requests[i].blood_group === 'O-') {inventory[7] -=requests[i].quantity}
+
+        
+        }
+
+   
+    })
+
+
+
+    BloodRequests.find({ organization: orgname, status: 'pending' }).then((requests) => {
+
+        for (let i = 0; i < requests.length; i++) {
+            if (requests[i].blood_group === 'A+' && requests[i].quantity <= inventory[0]) { requests[i].possibility = 'true' }
+            else if (requests[i].blood_group === 'A-' && requests[i].quantity <= inventory[1]) { requests[i].possibility = 'true' }
+            else if (requests[i].blood_group === 'B+' && requests[i].quantity <= inventory[2]) { requests[i].possibility = 'true' }
+            else if (requests[i].blood_group === 'B-' && requests[i].quantity <= inventory[3]) { requests[i].possibility = 'true' }
+            else if (requests[i].blood_group === 'AB+' && requests[i].quantity <= inventory[4]) { requests[i].possibility = 'true' }
+            else if (requests[i].blood_group === 'AB-' && requests[i].quantity <= inventory[5]) { requests[i].possibility = 'true' }
+            else if (requests[i].blood_group === 'O+' && requests[i].quantity <= inventory[6]) { requests[i].possibility = 'true' }
+            else if (requests[i].blood_group === 'O-' && requests[i].quantity <= inventory[7]) { requests[i].possibility = 'true' }
+
+        }
         res.send(requests)
 
     })
 }
 
 
-const bloodrequestshistory = (req, res)=>{
+const bloodrequestshistory = (req, res) => {
     const orgname = req.query.orgname;
-    BloodRequests.find({organization:orgname, status: {"$in": ["rejected", "approved"]}}).then((requests)=>{
-        if(requests)
+    BloodRequests.find({ organization: orgname, status: { "$in": ["rejected", "approved"] } }).then((requests) => {
+        if (requests)
             res.status(200).json(requests)
         else
-        console.log('not approved/rejected req')
+            console.log('not approved/rejected req')
 
     })
 }
 
-const orgrequesthandling = (req, res)=>{
+const orgrequesthandling = (req, res) => {
 
-    const {reqid, status} = req.body;
+    const { reqid, status } = req.body;
 
-    BloodRequests.findById(reqid).then((req)=>{
-        req.status= status;
+    BloodRequests.findById(reqid).then((req) => {
+        req.status = status;
 
-        req.save().then(()=>{
-            res.status(200).json({msg: 'modified'})
-        }).catch((err)=>{
-            res.status(300).json({msg: 'error'})
+        req.save().then(() => {
+            res.status(200).json({ msg: 'modified' })
+        }).catch((err) => {
+            res.status(300).json({ msg: 'error' })
         })
     })
 
 }
 
 
-module.exports = { organizationlogin, organizationsignup, organizations, inventory, donors , bloodrequests, orgrequesthandling, bloodrequestshistory}
+module.exports = { organizationlogin, organizationsignup, organizations, inventory, donors, bloodrequests, orgrequesthandling, bloodrequestshistory }

@@ -6,26 +6,26 @@ import './DonorDonate.css'
 
 
 
-const HospitalRequestsHistory = () => {
+const AdminReqDashboard = () => {
 
 
     const [validstatus, setvalidstatus] = useState('false')
 
     const location = useLocation();
 
-    let hospital_Id
+    let admin_Id
     // Access the state object, which contains the id
     try {
-        hospital_Id = location.state.id || '';
+        admin_Id = location.state.id || '';
     }
     catch {
-        hospital_Id = '';
+        admin_Id = '';
     }
 
 
 
 
-    const authToken = localStorage.getItem(`authToken_${hospital_Id}`);
+    const authToken = localStorage.getItem(`authToken_${admin_Id}`);
 
 
     useEffect(() => {
@@ -48,7 +48,7 @@ const HospitalRequestsHistory = () => {
         }).then(() => {
 
 
-            fetch(`http://localhost:3001/hospitalrequestshistory?hospitalid=${hospital_Id}`, {
+            fetch(`http://localhost:3001/allbloodrequests`, {
                
             headers: {
                 'Content-Type': 'application/json',
@@ -57,16 +57,21 @@ const HospitalRequestsHistory = () => {
 
             })
                 .then((requests) => {
-
+                       
                     if (requests.ok) {
+
+
                         return requests.json().then((requests) => {
-                        
+                          
 
                             for (let i = 0; i < requests.length; i++) {
                                 let row = document.createElement('tr')
-                                // row.id='donor'+i
+                             
                                 let hospitalname = document.createElement('td')
                                 hospitalname.innerText = requests[i].hospital
+
+                                let orgname = document.createElement('td')
+                                orgname.innerText = requests[i].organization
 
 
                                 let bloodgroup = document.createElement('td')
@@ -83,6 +88,7 @@ const HospitalRequestsHistory = () => {
                                 
 
                                 row.appendChild(hospitalname)
+                                row.appendChild(orgname)
                                 row.appendChild(bloodgroup)
                                 row.appendChild(qty)
                                 row.appendChild(status)
@@ -116,12 +122,14 @@ const HospitalRequestsHistory = () => {
             <>
                 <Navbar />
 
-                
-            <div className='main'>
+                <div className='main'>
+                    <h2>Blood Requests History</h2>
+
                 <table className="table table-info table-borderless table-hover" >
                     <thead>
                         <tr>
                             <td>Hospital</td>
+                            <td>Organization</td>
                             <td>Blood Group</td>
                             <td>Quantity</td>
                             <td>Status</td>
@@ -148,7 +156,7 @@ const HospitalRequestsHistory = () => {
     else {
         return (
             <>
-                <p>You are not logged in as a hospital.</p>
+                <p>You are not logged in as an admin.</p>
             </>
         )
     }
@@ -157,4 +165,4 @@ const HospitalRequestsHistory = () => {
 
 
 
-export default HospitalRequestsHistory
+export default AdminReqDashboard
